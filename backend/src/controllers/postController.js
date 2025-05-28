@@ -17,18 +17,23 @@ exports.getPostById = async (req, res) => {
     if (!post) return res.status(404).json({ error: 'Post não encontrado.' });
     res.json(post);
   } catch (error) {
-    res.status(500).json({ error: 'Erro ao buscar o post.' });
+  res.status(500).json({ error: 'Erro ao buscar posts.' });
   }
 };
 
 // POST /posts - Criação de Postagens
-exports.createPost = async (req, res) => {
+exports.createPost = async function createPost(req, res) {
+  const { title, content, author } = req.body;
+
+  if (!title || !content || !author) {
+    return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
+  }
+
   try {
-    const { title, content, author } = req.body;
-    const newPost = await Post.create({ title, content, author });
-    res.status(201).json(newPost);
+    const post = await Post.create({ title, content, author });
+    res.status(201).json(post);
   } catch (error) {
-    res.status(400).json({ error: 'Erro ao criar o post.' });
+    res.status(500).json({ error: 'Erro ao criar o post.' });
   }
 };
 
@@ -36,8 +41,16 @@ exports.createPost = async (req, res) => {
 exports.updatePost = async (req, res) => {
   try {
     const { title, content, author } = req.body;
+
+    // Validação: campos obrigatórios e não vazios
+    if ([title, content, author].some(field => !field || field.trim() === '')) {
+      return res.status(400).json({ error: 'Todos os campos (título, conteúdo e autor) são obrigatórios.' });
+    }
+
     const post = await Post.findByPk(req.params.id);
-    if (!post) return res.status(404).json({ error: 'Post não encontrado.' });
+    if (!post) {
+      return res.status(404).json({ error: 'Post não encontrado.' });
+    }
 
     await post.update({ title, content, author });
     res.json(post);
@@ -50,10 +63,12 @@ exports.updatePost = async (req, res) => {
 exports.deletePost = async (req, res) => {
   try {
     const post = await Post.findByPk(req.params.id);
-    if (!post) return res.status(404).json({ error: 'Post não encontrado.' });
+    if (!post) {
+      return res.status(404).json({ error: 'Post não encontrado.' });
+    }
 
     await post.destroy();
-    res.json({ message: 'Post deletado com sucesso.' });
+    res.status(204).send(); // Sem corpo de resposta, conforme padrão para DELETE bem-sucedido
   } catch (error) {
     res.status(500).json({ error: 'Erro ao deletar o post.' });
   }
