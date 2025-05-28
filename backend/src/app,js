@@ -1,0 +1,17 @@
+const express = require('express');
+const app = express();
+const postRoutes = require('./routes/posts');
+require('dotenv').config();
+
+// Middlewares
+app.use(express.json()); // para aceitar JSON no body das requisições
+
+// Rotas
+app.use('/posts', postRoutes);
+
+// Rota raiz (opcional)
+app.get('/', (req, res) => {
+  res.send('API de Postagens ativa!');
+});
+
+module.exports = app;
