@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1748396492137" clover="3.2.0">
-  <project timestamp="1748396492138" name="All files">
-    <metrics statements="73" coveredstatements="59" conditionals="17" coveredconditionals="14" methods="8" coveredmethods="6" elements="98" coveredelements="79" complexity="0" loc="73" ncloc="73" packages="5" files="6" classes="6"/>
+<coverage generated="1748405838454" clover="3.2.0">
+  <project timestamp="1748405838454" name="All files">
+    <metrics statements="71" coveredstatements="71" conditionals="21" coveredconditionals="21" methods="7" coveredmethods="7" elements="99" coveredelements="99" complexity="0" loc="71" ncloc="71" packages="4" files="4" classes="4"/>
     <package name="src">
-      <metrics statements="11" coveredstatements="6" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="app.js" path="H:\Projetos\Tech Challenge 3\backend\src\app.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
@@ -13,72 +13,61 @@
         <line num="7" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
       </file>
-      <file name="server.js" path="H:\Projetos\Tech Challenge 3\backend\src\server.js">
-        <metrics statements="5" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="4" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-      </file>
     </package>
     <package name="src.controllers">
-      <metrics statements="45" coveredstatements="38" conditionals="15" coveredconditionals="14" methods="7" coveredmethods="6"/>
+      <metrics statements="50" coveredstatements="50" conditionals="21" coveredconditionals="21" methods="7" coveredmethods="7"/>
       <file name="postController.js" path="H:\Projetos\Tech Challenge 3\backend\src\controllers\postController.js">
-        <metrics statements="45" coveredstatements="38" conditionals="15" coveredconditionals="14" methods="7" coveredmethods="6"/>
+        <metrics statements="50" coveredstatements="50" conditionals="21" coveredconditionals="21" methods="7" coveredmethods="7"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="2" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
         <line num="6" count="2" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
-        <line num="16" count="2" type="stmt"/>
-        <line num="17" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="26" count="3" type="stmt"/>
-        <line num="28" count="3" type="cond" truecount="5" falsecount="0"/>
-        <line num="29" count="1" type="stmt"/>
-        <line num="32" count="2" type="stmt"/>
-        <line num="33" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="19" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="24" count="3" type="stmt"/>
+        <line num="25" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
-        <line num="42" count="3" type="stmt"/>
-        <line num="43" count="3" type="stmt"/>
-        <line num="46" count="9" type="cond" truecount="3" falsecount="1"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="50" count="3" type="stmt"/>
-        <line num="51" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="52" count="1" type="stmt"/>
-        <line num="55" count="2" type="stmt"/>
-        <line num="56" count="1" type="stmt"/>
-        <line num="58" count="1" type="stmt"/>
-        <line num="63" count="1" type="stmt"/>
-        <line num="64" count="3" type="stmt"/>
-        <line num="65" count="3" type="stmt"/>
-        <line num="66" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="67" count="1" type="stmt"/>
-        <line num="70" count="2" type="stmt"/>
-        <line num="71" count="1" type="stmt"/>
-        <line num="73" count="1" type="stmt"/>
+        <line num="35" count="3" type="stmt"/>
+        <line num="37" count="3" type="cond" truecount="5" falsecount="0"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="51" count="4" type="stmt"/>
+        <line num="52" count="4" type="stmt"/>
+        <line num="54" count="10" type="cond" truecount="4" falsecount="0"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="58" count="3" type="stmt"/>
+        <line num="59" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="63" count="2" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="66" count="1" type="stmt"/>
+        <line num="72" count="1" type="stmt"/>
+        <line num="73" count="3" type="stmt"/>
+        <line num="74" count="3" type="stmt"/>
+        <line num="75" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="77" count="2" type="stmt"/>
         <line num="78" count="1" type="stmt"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
-        <line num="81" count="0" type="stmt"/>
-        <line num="89" count="0" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-      </file>
-    </package>
-    <package name="src.database">
-      <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="config.js" path="H:\Projetos\Tech Challenge 3\backend\src\database\config.js">
-        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
+        <line num="80" count="1" type="stmt"/>
+        <line num="85" count="1" type="stmt"/>
+        <line num="86" count="6" type="stmt"/>
+        <line num="87" count="6" type="stmt"/>
+        <line num="90" count="6" type="cond" truecount="4" falsecount="0"/>
+        <line num="91" count="3" type="stmt"/>
+        <line num="94" count="3" type="stmt"/>
+        <line num="103" count="2" type="stmt"/>
+        <line num="105" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.models">
@@ -105,7 +94,7 @@
         <line num="15" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
       </file>
     </package>
   </project>

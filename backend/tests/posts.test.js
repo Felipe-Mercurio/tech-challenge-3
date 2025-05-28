@@ -56,6 +56,20 @@ describe('Posts API', () => {
       expect(Array.isArray(response.body)).toBe(true);
       expect(response.body.length).toBeGreaterThanOrEqual(2);
     });
+
+    it('should return 500 if getAll fails', async () => {
+      // Mock do método findAll para lançar erro
+      jest.spyOn(Post, 'findAll').mockImplementation(() => {
+        throw new Error('Erro forçado para teste');
+      });
+
+      const response = await request(app).get('/posts');
+
+      expect(response.statusCode).toBe(500);
+      expect(response.body.error).toBe('Erro ao buscar os posts.');
+
+      Post.findAll.mockRestore();
+    });
   });
 
   describe('GET /posts/:id', () => {
@@ -77,13 +91,24 @@ describe('Posts API', () => {
       expect(response.statusCode).toBe(404);
     });
 
-    it('should return 500 if getAll fails', async () => {
-      jest.spyOn(Post, 'findAll').mockRejectedValueOnce(new Error('Erro forçado'));
+    it('should return 400 for invalid id parameter', async () => {
+      const response = await request(app).get('/posts/invalid-id');
+      expect(response.statusCode).toBe(400);
+    });
 
-      const response = await request(app).get('/posts');
+    it('should return 500 if getById fails', async () => {
+      // Mock do método findByPk para lançar erro
+      jest.spyOn(Post, 'findByPk').mockImplementation(() => {
+        throw new Error('Erro forçado para teste');
+      });
+
+      const response = await request(app).get('/posts/1');
 
       expect(response.statusCode).toBe(500);
-      expect(response.body.error).toBe('Erro ao buscar posts.');
+      expect(response.body.error).toBe('Erro ao buscar o post.');
+
+      // Restaura implementação original
+      Post.findByPk.mockRestore();
     });
 
   });
@@ -104,6 +129,18 @@ describe('Posts API', () => {
       expect(response.body.title).toBe('Updated Title');
       expect(response.body.content).toBe('Updated content');
       expect(response.body.author).toBe('Updated Author');
+    });
+
+    it('should return 400 if required fields are missing or empty', async () => {
+      const post = await Post.create({ title: 'Título', content: 'Conteúdo', author: 'Autor' });
+
+      // Exemplo título vazio
+      const response = await request(app)
+        .put(`/posts/${post.id}`)
+        .send({ title: '', content: 'Novo conteúdo', author: 'Autor' });
+
+      expect(response.statusCode).toBe(400);
+      expect(response.body.error).toBe('Todos os campos (título, conteúdo e autor) são obrigatórios.');
     });
 
     it('should return 404 if post to update is not found', async () => {
@@ -162,6 +199,59 @@ describe('Posts API', () => {
       expect(response.body.error).toBe('Erro ao deletar o post.');
     });
   });
+
+  describe('GET /posts/search', () => {
+    beforeAll(async () => {
+      // Criar alguns posts para teste
+      await Post.bulkCreate([
+        { title: 'Node.js tutorial', content: 'Aprenda Node.js', author: 'Dev' },
+        { title: 'React basics', content: 'Componentes React', author: 'Dev' },
+        { title: 'Sequelize ORM', content: 'Banco de dados com Sequelize', author: 'Dev' },
+      ]);
+    });
+
+    it('should return posts matching the search query in title or content', async () => {
+      const response = await request(app).get('/posts/search?q=Node');
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body.length).toBeGreaterThan(0);
+      expect(response.body[0]).toHaveProperty('title');
+      expect(response.body.some(post => post.title.includes('Node'))).toBe(true);
+    });
+
+    it('should return empty array if no posts match', async () => {
+      const response = await request(app).get('/posts/search?q=palavra-inexistente');
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toEqual([]);
+    });
+
+    it('should return empty array if query is missing or empty', async () => {
+      const response1 = await request(app).get('/posts/search');
+      const response2 = await request(app).get('/posts/search?q=');
+      const response3 = await request(app).get('/posts/search?q=   ');
+
+      [response1, response2, response3].forEach(response => {
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toEqual([]);
+      });
+    });
+
+    it('should return 500 if an error occurs during search', async () => {
+      // Força erro simulando falha no Post.findAll
+      const originalFindAll = Post.findAll;
+      Post.findAll = jest.fn().mockRejectedValue(new Error('Simulated failure'));
+
+      const response = await request(app).get('/posts/search?q=Node');
+
+      expect(response.statusCode).toBe(500);
+      expect(response.body).toHaveProperty('error');
+
+      // Restaura função original
+      Post.findAll = originalFindAll;
+    });
+  });
+
 });
 
 afterAll(async () => {

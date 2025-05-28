@@ -1,4 +1,5 @@
 const { Post } = require('../models');
+const { Op } = require('sequelize');
 
 // GET /posts - Lista de Posts
 exports.getAllPosts = async (req, res) => {
@@ -6,20 +7,28 @@ exports.getAllPosts = async (req, res) => {
     const posts = await Post.findAll();
     res.json(posts);
   } catch (error) {
-    res.status(500).json({ error: 'Erro ao buscar posts.' });
+    res.status(500).json({ error: 'Erro ao buscar os posts.' });
   }
 };
 
 // GET /posts/:id - Leitura de um Post específico
 exports.getPostById = async (req, res) => {
+  const id = req.params.id;
+
+  // Validação simples: id deve ser número inteiro positivo (ajuste se usar UUID)
+  if (!/^\d+$/.test(id)) {
+    return res.status(400).json({ error: 'ID inválido.' });
+  }
+
   try {
     const post = await Post.findByPk(req.params.id);
     if (!post) return res.status(404).json({ error: 'Post não encontrado.' });
     res.json(post);
   } catch (error) {
-  res.status(500).json({ error: 'Erro ao buscar posts.' });
+    res.status(500).json({ error: 'Erro ao buscar o post.' });
   }
 };
+
 
 // POST /posts - Criação de Postagens
 exports.createPost = async function createPost(req, res) {
@@ -42,7 +51,6 @@ exports.updatePost = async (req, res) => {
   try {
     const { title, content, author } = req.body;
 
-    // Validação: campos obrigatórios e não vazios
     if ([title, content, author].some(field => !field || field.trim() === '')) {
       return res.status(400).json({ error: 'Todos os campos (título, conteúdo e autor) são obrigatórios.' });
     }
@@ -59,16 +67,15 @@ exports.updatePost = async (req, res) => {
   }
 };
 
+
 // DELETE /posts/:id - Exclusão de Postagens
 exports.deletePost = async (req, res) => {
   try {
     const post = await Post.findByPk(req.params.id);
-    if (!post) {
-      return res.status(404).json({ error: 'Post não encontrado.' });
-    }
+    if (!post) return res.status(404).json({ error: 'Post não encontrado.' });
 
     await post.destroy();
-    res.status(204).send(); // Sem corpo de resposta, conforme padrão para DELETE bem-sucedido
+    res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: 'Erro ao deletar o post.' });
   }
@@ -78,16 +85,23 @@ exports.deletePost = async (req, res) => {
 exports.searchPosts = async (req, res) => {
   try {
     const query = req.query.q;
+
+    // Se query não existe ou está vazia, retornar todos os posts (ou erro 400, conforme regra de negócio)
+    if (!query || query.trim() === '') {
+      return res.status(200).json([]); // ou res.status(400) se for obrigatório
+    }
+
     const posts = await Post.findAll({
       where: {
-        [require('sequelize').Op.or]: [
-          { title: { [require('sequelize').Op.iLike]: `%${query}%` } },
-          { content: { [require('sequelize').Op.iLike]: `%${query}%` } },
+        [Op.or]: [
+          { title: { [Op.iLike]: `%${query}%` } },
+          { content: { [Op.iLike]: `%${query}%` } },
         ],
       },
     });
-    res.json(posts);
+
+    return res.status(200).json(posts);
   } catch (error) {
-    res.status(500).json({ error: 'Erro ao buscar posts.' });
+    res.status(500).json({ error: 'Erro ao buscar os posts.' });
   }
 };
