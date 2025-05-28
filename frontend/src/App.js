@@ -1,52 +1,24 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import { AuthProvider } from './contexts/AuthContext';
-
-import Home from './pages/Home';
-import PostDetail from './pages/PostDetail';
-import CreatePost from './pages/CreatePost';
-import EditPost from './pages/EditPost';
-import Admin from './pages/Admin';
-import Login from './pages/Login';
-
-import PrivateRoute from './components/PrivateRoute';
+import logo from './logo.svg';
+import './App.css';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/posts/:id" element={<PostDetail />} />
-          <Route
-            path="/posts/create"
-            element={
-              <PrivateRoute>
-                <CreatePost />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/posts/edit/:id"
-            element={
-              <PrivateRoute>
-                <EditPost />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <PrivateRoute>
-                <Admin />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
   );
 }
 
