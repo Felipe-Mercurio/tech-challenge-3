@@ -5,7 +5,7 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
 
   const fetchPosts = useCallback(async () => {
-    const res = await fetch('https://seu-backend.railway.app/posts');
+    const res = await fetch('https://tech-challenge-3-production.up.railway.app/posts');
     if (!res.ok) throw new Error('Erro ao buscar posts');
     const data = await res.json();
     setPosts(data);
