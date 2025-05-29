@@ -1,4 +1,4 @@
-const API_BASE = 'https://tech-challenge-3-production.up.railway.app/';
+const API_BASE = 'https://tech-challenge-3-production.up.railway.app';
 
 export async function getPosts() {
   const res = await fetch(`${API_BASE}/posts`);
