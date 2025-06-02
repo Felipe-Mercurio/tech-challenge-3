@@ -1,5 +1,3 @@
-// src/models/index.js
-require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
@@ -7,25 +5,15 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   logging: false,
 });
 
+const definePost = require('./post');
+const Post = definePost(sequelize);
 
-const Post = sequelize.define('Post', {
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  content: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  author: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-}, {
-  timestamps: true,
-});
+const defineUser = require('./user');
+const User = defineUser(sequelize);
 
 module.exports = {
   sequelize,
+  Sequelize,
   Post,
+  User,
 };

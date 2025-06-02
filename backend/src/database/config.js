@@ -1,5 +1,5 @@
-// src/database/config.js
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();  // Carrega .env padrão
 
 module.exports = {
   development: {

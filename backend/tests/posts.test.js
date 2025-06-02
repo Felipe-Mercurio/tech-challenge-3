@@ -4,8 +4,7 @@ const { Post, sequelize } = require('../src/models');
 
 describe('Posts API', () => {
   beforeAll(async () => {
-    // Limpa a tabela antes dos testes
-    await Post.destroy({ where: {} });
+
   });
 
   describe('POST /posts', () => {
@@ -252,8 +251,4 @@ describe('Posts API', () => {
     });
   });
 
-});
-
-afterAll(async () => {
-  await sequelize.close();
 });

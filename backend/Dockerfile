@@ -1,4 +1,5 @@
-FROM node:18-alpine
+# Dockerfile
+FROM node:23-alpine
 
 WORKDIR /app
 
@@ -6,8 +7,10 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npm install -g nodemon
+
 COPY . .
 
-EXPOSE 3000
+EXPOSE 3001
 
 CMD ["node", "src/server.js"]

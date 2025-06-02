@@ -1,4 +1,5 @@
-const API_BASE = 'https://tech-challenge-3-production.up.railway.app';
+const API_BASE = process.env.REACT_APP_API_URL;
+export default API_BASE;
 
 export async function getPosts() {
   const res = await fetch(`${API_BASE}/posts`);
