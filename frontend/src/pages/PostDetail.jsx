@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext  } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getPostById, deletePost } from '../api/api';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Container = styled.div`
   background-color: #f5f5f5;
@@ -105,6 +106,9 @@ export default function PostDetail() {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { user } = useContext(AuthContext); // 👈 acesso ao usuário logado
+
+  const hasPermission = user && (user.level === 'Admin' || user.level === 'Professor'); // 👈 verificação de permissão
 
   useEffect(() => {
     async function fetchPost() {
@@ -124,7 +128,7 @@ export default function PostDetail() {
 
   const confirmDelete = async () => {
     try {
-      await deletePost(id);
+      await deletePost(id, user?.token); // 👈 garantir uso do token
       navigate('/');
     } catch (error) {
       alert('Erro ao deletar o post.');
@@ -144,10 +148,12 @@ export default function PostDetail() {
         <Label>Conteúdo:</Label>
         <Content>{post.content}</Content>
 
-        <ButtonGroup>
-          <Button onClick={() => navigate(`/posts/${id}/edit`)}>Editar</Button>
-          <Button danger onClick={handleDeleteClick}>Deletar</Button>
-        </ButtonGroup>
+        {hasPermission && (
+          <ButtonGroup>
+            <Button onClick={() => navigate(`/posts/edit/${id}`)}>Editar</Button>
+            <Button danger onClick={handleDeleteClick}>Deletar</Button>
+          </ButtonGroup>
+        )}
       </Card>
 
       {showDeleteModal && (

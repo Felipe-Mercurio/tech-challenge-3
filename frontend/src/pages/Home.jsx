@@ -86,12 +86,14 @@ const Home = () => {
       <Container>
         <Title>Posts</Title>
 
-        <SearchInput
-          type="text"
-          value={query}
-          onChange={handleSearchChange}
-          placeholder="Filtrar por título ou autor..."
-        />
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+          <SearchInput
+            type="text"
+            value={query}
+            onChange={handleSearchChange}
+            placeholder="Filtrar por título ou autor..."
+          />
+        </div>
 
         <PostsGrid>
           {posts.map((post) => (

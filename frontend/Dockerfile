@@ -6,11 +6,10 @@ WORKDIR /app
 # Copia package.json e package-lock.json para instalar dependências
 COPY package*.json ./
 
-RUN npm install
-
 # Copia todo o código para dentro do container
 COPY . .
 
+RUN npm install
 # Defina o argumento para a variável de ambiente que o React usará no build
 ARG REACT_APP_API_URL
 ENV REACT_APP_API_URL=$REACT_APP_API_URL

@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getPostById, updatePost } from '../api/api';
+import { createPost } from '../api/api';
 import { AuthContext } from '../contexts/AuthContext';
 
+// --- Estilos reutilizados do EditPost.jsx ---
 const Container = styled.div`
   background-color: #f5f5f5;
   min-height: 100vh;
@@ -20,7 +21,6 @@ const Card = styled.div`
   max-width: 600px;
   width: 100%;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  position: relative;
 `;
 
 const Title = styled.h2`
@@ -87,95 +87,38 @@ const Button = styled.button`
     background-color: #2980b9;
   }
 `;
+// ---------------------------------------------------
 
-// Modal styles (igual do PostDetail)
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
-
-const ModalContent = styled.div`
-  background-color: white;
-  padding: 2rem 3rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 30px rgba(0,0,0,0.2);
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-`;
-
-const ModalMessage = styled.p`
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-  color: #333;
-`;
-
-const ModalButtonGroup = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-`;
-
-export default function EditPost() {
-  const { id } = useParams();
-  const navigate = useNavigate();
+export default function CreatePost() {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
 
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-  useEffect(() => {
-    async function loadPost() {
-      try {
-        const data = await getPostById(id);
-        setTitle(data.title);
-        setContent(data.content);
-        setAuthor(data.author);
-      } catch (error) {
-        console.error('Erro ao carregar post:', error);
-      }
-    }
-    loadPost();
-  }, [id]);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setShowConfirmModal(true);
-  };
-
-  const confirmSave = async () => {
     try {
       const post = { title, content, author };
-      await updatePost(id, post, user.token);
-      setShowConfirmModal(false);
-      navigate('/admin');
-    } catch (error) {
-      alert('Erro ao salvar o post.');
-      console.error(error);
+      await createPost(post, user.token);
+      navigate('/');
+    } catch (err) {
+      console.error('Erro ao criar post:', err);
+      alert('Não foi possível criar o post. Verifique os dados e tente novamente.');
     }
   };
 
   return (
     <Container>
       <Card>
-        <Title>Editar Post</Title>
+        <Title>Criar Novo Post</Title>
         <form onSubmit={handleSubmit}>
           <Label htmlFor="title">Título</Label>
           <Input
             id="title"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
             required
           />
 
@@ -183,7 +126,7 @@ export default function EditPost() {
           <Input
             id="author"
             value={author}
-            onChange={e => setAuthor(e.target.value)}
+            onChange={(e) => setAuthor(e.target.value)}
             required
           />
 
@@ -191,27 +134,15 @@ export default function EditPost() {
           <TextArea
             id="content"
             value={content}
-            onChange={e => setContent(e.target.value)}
+            onChange={(e) => setContent(e.target.value)}
             required
           />
 
           <ButtonGroup>
-            <Button type="submit">Salvar</Button>
+            <Button type="submit">Criar</Button>
           </ButtonGroup>
         </form>
       </Card>
-
-      {showConfirmModal && (
-        <ModalOverlay>
-          <ModalContent>
-            <ModalMessage>Tem certeza que deseja salvar as alterações?</ModalMessage>
-            <ModalButtonGroup>
-              <Button onClick={() => setShowConfirmModal(false)}>Cancelar</Button>
-              <Button onClick={confirmSave}>Confirmar</Button>
-            </ModalButtonGroup>
-          </ModalContent>
-        </ModalOverlay>
-      )}
     </Container>
   );
 }

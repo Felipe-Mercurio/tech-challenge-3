@@ -12,6 +12,8 @@ import CreatePost from './pages/CreatePost';
 import EditPost from './pages/EditPost';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
+import Register from './pages/Register';
+
 
 function App() {
   return (
@@ -46,6 +48,7 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </Router>
     </AuthProvider>

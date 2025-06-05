@@ -35,7 +35,15 @@ exports.login = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    return res.status(200).json({ token });
+    return res.status(200).json({
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        level: user.level,
+      },
+    });
   } catch (error) {
     return res.status(500).json({ error: 'Erro interno ao logar' });
   }
@@ -48,6 +56,11 @@ exports.register = async (req, res) => {
 
     if (!name || !email || !password || !level) {
       return res.status(400).json({ error: 'Campos obrigatórios faltando' });
+    }
+
+    const allowedLevels = ['Aluno', 'Professor', 'Admin'];
+    if (!allowedLevels.includes(level)) {
+      return res.status(400).json({ error: 'Nível de acesso inválido' });
     }
 
     const existingUser = await User.findOne({ where: { email } });
@@ -64,13 +77,22 @@ exports.register = async (req, res) => {
       level,
     });
 
+    // Gerar token se desejar logar automaticamente após registro:
+    const token = jwt.sign(
+      { id: user.id, level: user.level },
+      process.env.JWT_SECRET,
+      { expiresIn: '2h' }
+    );
+
     return res.status(201).json({
       id: user.id,
       name: user.name,
       email: user.email,
       level: user.level,
+      token, // opcional
     });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ error: 'Erro interno ao registrar usuário' });
   }
 };
