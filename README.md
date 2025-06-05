@@ -1,57 +1,69 @@
-# Tech Challenge 3 - API de Posts
+# Tech Challenge 3 – Aplicação Full Stack de Posts
 
-## Visão Geral
+## 🧩 Visão Geral
 
-API RESTful para gerenciamento de posts, permitindo criar, consultar, atualizar, deletar e buscar posts por título ou conteúdo.
-
-Desenvolvida com Node.js, Express, Sequelize, e banco de dados PostgreSQL.
-
-Deploy realizado na Railway.
+Aplicação full stack composta por uma **API RESTful** e uma **interface web** para gerenciamento de posts.  
+Usuários podem criar, visualizar, buscar, editar e excluir posts, com autenticação e controle de acesso por níveis:  
+**Aluno**, **Professor** e **Admin**.
 
 ---
 
-## Tecnologias Utilizadas
+## 🛠️ Tecnologias Utilizadas
 
-- Node.js
-- Express
-- Sequelize (ORM)
-- PostgreSQL (banco de dados)
+### Backend
+- Node.js + Express
+- PostgreSQL + Sequelize (ORM)
+- JWT (autenticação)
 - Jest + Supertest (testes automatizados)
-- Docker e Docker Compose (containerização)
+- Docker + Docker Compose
 - GitHub Actions (CI/CD)
-- Railway (deploy do banco de dados e da API)
+- Railway (deploy da API e banco)
+
+### Frontend
+- React.js
+- React Router DOM
+- Context API (autenticação)
+- Styled-Components (estilização)
+- Vercel (deploy)
 
 ---
 
-## Configuração e Execução Local
+## ⚙️ Configuração e Execução
 
-### Pré-requisitos
+### 🔒 Variáveis de Ambiente
 
-- Node.js instalado
-- Docker e Docker Compose instalados
-- Conta no Railway (para deploy remoto, opcional)
-
-### Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz com as seguintes variáveis:
-
+#### Backend – `.env`
 ```env
 DB_USER=seu_usuario_postgres
 DB_PASS=sua_senha_postgres
 DB_NAME=nome_do_banco
 DB_HOST=localhost
 PORT=3000
+JWT_SECRET=sua_chave_secreta
 ```
 
-### Rodando com Docker
+### 🔐 Autenticação e Permissões
 
-docker-compose up --build
+Autenticação via JWT
 
-### Rodando localmente sem Docker
+Níveis de usuário:
 
-npm install
-npm start
+- 🟢 Aluno: apenas visualiza posts
 
-### Rodando testes automatizados
+- 🟡 Professor: pode criar, editar e excluir seus próprios posts
 
-npm test
+- 🔴 Admin: tem controle total sobre todos os posts
+
+### 📌 Funcionalidades
+
+- Login e logout com persistência de sessão
+
+- Listagem de posts com filtro por título ou conteúdo
+
+- Criação, edição e exclusão (com permissões)
+
+- Tela de administração com busca
+
+- Experiência responsiva e intuitiva
+
+- Feedback visual durante carregamento e erros
